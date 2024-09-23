@@ -2,4 +2,4 @@
     docker run -it -v .:/build/output akb74/make.wasm 
 
 
-    docker run -v .:/src -w /src ghcr.io/webassembly/wasi-sdk sh
+    docker run -it -v .:/src -w /src ghcr.io/webassembly/wasi-sdk sh

@@ -1,6 +1,4 @@
-ARG CLANG_VERSION=18
-
-FROM silkeh/clang:${CLANG_VERSION}
+FROM ghcr.io/webassembly/wasi-sdk:sha-adbbf2c
 
 ARG MAKE_VERSION=4.4.1
 
@@ -16,10 +14,10 @@ RUN tar -xvzf make-${MAKE_VERSION}.tar.gz
 
 WORKDIR /build/make-${MAKE_VERSION}
 
-ENV CFLAGS="-O3 --target=wasm32 -nostdlib"
-ENV LDFLAGS="--target=wasm32 -Wl,--no-entry -Wl,--export-all"
-ENV CC="clang --target=wasm32"
-ENV CXX="clang++ --target=wasm32"
+# ENV CFLAGS="-O3 --target=wasm32 -nostdlib"
+# ENV LDFLAGS="--target=wasm32 -Wl,--no-entry -Wl,--export-all"
+# ENV CC="clang --target=wasm32"
+# ENV CXX="clang++ --target=wasm32"
 
 RUN ./configure --host=wasm32 target=wasm32
 
