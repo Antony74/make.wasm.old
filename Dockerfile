@@ -1,4 +1,6 @@
-FROM ghcr.io/webassembly/wasi-sdk:sha-adbbf2c
+ARG EMSCRIPTEN_VERSON=3.1.67
+
+FROM emscripten/emsdk:${EMSCRIPTEN_VERSON}
 
 ARG MAKE_VERSION=4.4.1
 
@@ -8,17 +10,18 @@ RUN apt-get install tar
 
 WORKDIR /build
 
-RUN curl https://ftp.gnu.org/gnu/make/make-$MAKE_VERSION.tar.gz -o make-$MAKE_VERSION.tar.gz --fail-with-body
-
+RUN curl https://ftp.gnu.org/gnu/make/make-${MAKE_VERSION}.tar.gz -o make-${MAKE_VERSION}.tar.gz --fail-with-body
 RUN tar -xvzf make-${MAKE_VERSION}.tar.gz
+RUN mv make-${MAKE_VERSION} make
 
-WORKDIR /build/make-${MAKE_VERSION}
+WORKDIR /build/make
 
-# ENV CFLAGS="-O3 --target=wasm32 -nostdlib"
-# ENV LDFLAGS="--target=wasm32 -Wl,--no-entry -Wl,--export-all"
-# ENV CC="clang --target=wasm32"
-# ENV CXX="clang++ --target=wasm32"
+RUN emconfigure ./configure
+RUN emmake make
+RUN find . -name "*.o" -type f | xargs emcc -O2 -o make.js
 
-RUN ./configure --host=wasm32 target=wasm32
+WORKDIR /build
 
-# RUN make
+COPY docker-wasm-build/clean-and-copy-to-host.sh .
+
+CMD ["sh", "./clean-and-copy-to-host.sh"]
