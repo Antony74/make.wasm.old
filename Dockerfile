@@ -16,9 +16,23 @@ RUN mv make-${MAKE_VERSION} make
 
 WORKDIR /build/make
 
+# Switch to the wasm build of make.  If you want to bootstrap from the regular binary build of make, comment from here
+
+# # Remove existing regular build of make
+# RUN which make | xargs -d '\n' rm -rf
+
+# COPY docker-wasm-build/package.json .
+# COPY make.wasm .
+# COPY make.js .
+
+# RUN npm install --global .
+
+# If you want to bootstrap from the regular binary build of make, comment to here
+
 RUN emconfigure ./configure
 RUN emmake make
 RUN find . -name "*.o" -type f | xargs emcc -O2 -o make.js
+RUN sed -i '1s/^/#!\/usr\/bin\/env node\n/' make.js
 
 WORKDIR /build
 

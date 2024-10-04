@@ -1,0 +1,5 @@
+!docker-wasm-build/*
+!docker-wasm-build/package.json
+!Dockerfile
+!.gitignore
+*
