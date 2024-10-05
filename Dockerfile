@@ -31,7 +31,9 @@ WORKDIR /build/make
 
 RUN emconfigure ./configure
 RUN emmake make
-RUN find . -name "*.o" -type f | xargs emcc -O2 -o make.js
+RUN find . -name "*.o" -type f | xargs emcc -O2 -s NODERAWFS=1 -o make.js
+
+# We want make.js to be runnable
 RUN sed -i '1s/^/#!\/usr\/bin\/env node\n/' make.js
 
 WORKDIR /build
