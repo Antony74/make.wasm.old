@@ -16,12 +16,13 @@ RUN mv make-${MAKE_VERSION} make
 
 WORKDIR /build/make
 
+COPY docker-wasm-build/package.json .
+
 # Switch to the wasm build of make.  If you want to bootstrap from the regular binary build of make, comment from here
 
 # # Remove existing regular build of make
 # RUN which make | xargs -d '\n' rm -rf
 
-# COPY docker-wasm-build/package.json .
 # COPY make.wasm .
 # COPY make.js .
 
