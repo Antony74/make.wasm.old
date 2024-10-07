@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+const path = require('path');
+
 var Module = typeof Module != 'undefined' ? Module : {};
 var ENVIRONMENT_IS_WEB = typeof window == 'object';
 var ENVIRONMENT_IS_WORKER = typeof importScripts == 'function';
@@ -3386,6 +3388,10 @@ function ___syscall_getcwd(buf, size) {
     try {
         if (size === 0) return -28;
         var cwd = FS.cwd();
+        const cwdObj = path.parse(cwd);
+        if (cwdObj.root.length > 1) {
+            cwd = `/${cwd.slice(cwdObj.root.length)}`;
+        }
         var cwdLengthInBytes = lengthBytesUTF8(cwd) + 1;
         if (size < cwdLengthInBytes) return -68;
         stringToUTF8(cwd, buf, size);
