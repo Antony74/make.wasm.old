@@ -39,7 +39,7 @@ COPY docker-wasm-build/package.json .
 
 RUN CFLAGS="-DUSE_POSIX_SPAWN" emconfigure ./configure
 RUN emmake make
-RUN find . -name "*.o" -type f | xargs emcc -O2 -s NODERAWFS=1 -o make.js
+RUN emcc -O2 -s NODERAWFS=1 -o make.js $(find . -name "*.o")
 RUN sed -i '1s/^/#!\/usr\/bin\/env node\n/' make.js
 
 # Remove existing regular build of make, and install the one we just built
