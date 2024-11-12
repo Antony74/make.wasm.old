@@ -1,13 +1,11 @@
 # Usage:
 #   docker build -t akb74/make-tests .
 #   docker run -it -v .:/git/host akb74/make-tests
-#   perl run_make_tests -make_path ../make
+#   ./make check-regression
 
-# Note this gives three failures 
+# Note this gives a couple of failures 
 #   features/output-sync 
 #   features/temp_stdin 
-#   misc/fopen-fail 
-# (which is fine with me so long a wasm build gives me no more failures than these exact three)
 
 FROM ubuntu:jammy
 
@@ -40,6 +38,6 @@ RUN make
 # Remove existing regular build of make
 RUN which make | xargs -d '\n' rm -rf
 
-WORKDIR /git/make/tests
+WORKDIR /git/make
 
 CMD ["bash"]
