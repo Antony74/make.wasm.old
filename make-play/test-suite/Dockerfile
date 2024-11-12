@@ -17,7 +17,7 @@ RUN echo "## Start building" \
     && echo "## Done"
 
 # Define which version of GNU Make we'd like to work with
-ARG MAKE_VERSION=4.4
+ARG MAKE_VERSION=4.4.1
 
 # Get and untar GNU Make
 WORKDIR /root
