@@ -7,15 +7,17 @@
 #include <stdio.h>
 #include <spawn.h>
 
-int posix_spawn(pid_t *pid, const char *path,
-                       const posix_spawn_file_actions_t *file_actions,
-                       const posix_spawnattr_t *attrp,
+extern int _posix_spawn_js(pid_t *pid, const char *path,                                  
+                       const posix_spawn_file_actions_t *file_actions,           
+                       const posix_spawnattr_t *attrp,                           
                        char *const argv[], char *const envp[]);
 
-int not_posix_spawn(pid_t *pid, const char *path,
-                       const posix_spawn_file_actions_t *file_actions,
-                       const posix_spawnattr_t *attrp,
-                       char *const argv[], char *const envp[]);
+int posix_spawn(pid_t *pid, const char *path,                                  
+                       const posix_spawn_file_actions_t *file_actions,           
+                       const posix_spawnattr_t *attrp,                           
+                       char *const argv[], char *const envp[]) {                 
+    return _posix_spawn_js(pid, path, file_actions, attrp, argv, envp);                                                             
+} 
 
 int main() {
     pid_t pid = -1;
